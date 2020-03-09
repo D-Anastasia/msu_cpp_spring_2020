@@ -8,13 +8,10 @@ Allocator::Allocator(){
 }
 void Allocator::makeAllocator(size_t maxSize){
 	char* memory1;
-	try{
-		memory1 = new char[maxSize];
-		if (memory1 == NULL){
-			throw "memory error";
-		}
-	} catch (char* str){
-		cout << str << endl;
+	memory1 = new char[maxSize];
+	if (memory1 == NULL){
+		cout << "memory error" << endl;
+		throw bad_alloc();
 	}
 	memory = memory1;
 	max_size = maxSize;
