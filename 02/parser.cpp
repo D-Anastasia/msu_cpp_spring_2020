@@ -11,7 +11,7 @@ OnBegin Begin;
 OnEnd End;
 
 void parse(const char* text){
-	if (Begin !=NULL) Begin();
+	if (Begin != NULL) Begin();
 	int i = 0, start_cur_token = 0;
 	int condition = 0;
 	char* tmp = new char[1];
@@ -36,7 +36,7 @@ void parse(const char* text){
 						if (tmp == NULL){
 							throw bad_alloc();
 						}
-						strncpy(tmp, text + start_cur_token,i - start_cur_token);
+						strncpy(tmp, text + start_cur_token, i - start_cur_token);
 						tmp[i - start_cur_token] = '\0';
 						if(Number != NULL) Number(tmp);
 					}
@@ -53,7 +53,7 @@ void parse(const char* text){
 						if (tmp == NULL){
 							throw bad_alloc();
 						}
-						strncpy(tmp, text + start_cur_token,i - start_cur_token);
+						strncpy(tmp, text + start_cur_token, i - start_cur_token);
 						tmp[i - start_cur_token] = '\0';
 						if(Str != NULL) Str(tmp);
 					}
