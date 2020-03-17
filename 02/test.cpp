@@ -6,7 +6,12 @@ using namespace std;
 int len_numbers = 0, len_str = 0;
 
 void f11(const char* n){
-	cout << "number " << n << endl;
+	int tmp = 0, i = 0;
+	while(n[i] != '\0'){
+		tmp = tmp*10 + n[i] - '0';
+		i++;
+	}
+	cout << "number " << tmp <<  endl;
 }
 void f22(const char* str){
 	cout << "str " << str << endl;

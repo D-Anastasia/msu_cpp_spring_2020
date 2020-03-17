@@ -14,56 +14,47 @@ void parse(const char* text){
 	if (Begin != NULL) Begin();
 	int i = 0, start_cur_token = 0;
 	int condition = 0;
-	char* tmp = new char[1];
-	if (tmp == NULL){
-		throw bad_alloc();
-	}
+	const int start_token = 0, number_token = 1, str_token = 2;
+	string token = "";
 	while(text[i] != '\0'){
 		switch (condition){
-			case 0:
+			case start_token:
 				start_cur_token = i;
 				if(text[i] >= '0' && text[i] <= '9'){
-					condition = 1;
+					condition = number_token;
+					token = text[i];
 				} else if(text[i] != '\n' && text[i] != '\t' && text[i] != ' ') {
-					condition = 2;
+					condition = str_token;
+					token = text[i];
 				}
 				break;
-			case 1:
+			case number_token:
 				if(text[i] == '\n' || text[i] == '\t' || text[i] == ' '){
 					if(i - start_cur_token > 0){
-						delete[] tmp;
-						tmp = new char[i - start_cur_token + 1];
-						if (tmp == NULL){
-							throw bad_alloc();
-						}
-						strncpy(tmp, text + start_cur_token, i - start_cur_token);
-						tmp[i - start_cur_token] = '\0';
-						if(Number != NULL) Number(tmp);
+						if(Number != NULL) Number(token.c_str());
 					}
-					condition = 0;
+					token = "";
+					condition = start_token;
 				} else if(text[i] <= '0' || text[i] >= '9'){
-					condition = 2;
+					condition = str_token;
+					token += text[i];
+				} else{
+					token += text[i];
 				}
 				break;
-			case 2:
+			case str_token:
 				if(text[i] == '\n' || text[i] == '\t' || text[i] == ' '){
 					if(i - start_cur_token > 0){
-						delete[] tmp;
-						tmp = new char[i - start_cur_token + 1];
-						if (tmp == NULL){
-							throw bad_alloc();
-						}
-						strncpy(tmp, text + start_cur_token, i - start_cur_token);
-						tmp[i - start_cur_token] = '\0';
-						if(Str != NULL) Str(tmp);
+						if(Str != NULL) Str(token.c_str());		
 					}
-					condition = 0;
+					token = "";
+					condition = start_token;
 				}
+				token += text[i];
 				break;
 		}
 		i++;
 	}
-	delete[] tmp;
 	if (End != NULL) End();
 
 }
