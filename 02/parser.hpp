@@ -1,7 +1,7 @@
 #ifndef P_02
 #define P_02
 
-using OnNumber = void(*)(const char* number);
+using OnNumber = void(*)(int number);
 using OnStr = void(*)(const char* str);
 using OnBegin = void(*)();
 using OnEnd = void(*)();

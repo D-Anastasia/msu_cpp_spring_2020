@@ -20,22 +20,22 @@ void parse(const char* text){
 		switch (condition){
 			case start_token:
 				start_cur_token = i;
-				if(text[i] >= '0' && text[i] <= '9'){
+				if(isdigit(text[i])){
 					condition = number_token;
 					token = text[i];
-				} else if(text[i] != '\n' && text[i] != '\t' && text[i] != ' ') {
+				} else if(!isspace(text[i])) {
 					condition = str_token;
 					token = text[i];
 				}
 				break;
 			case number_token:
-				if(text[i] == '\n' || text[i] == '\t' || text[i] == ' '){
+				if(isspace(text[i])){
 					if(i - start_cur_token > 0){
-						if(Number != NULL) Number(token.c_str());
+						if(Number != NULL) Number(atoi(token.c_str()));
 					}
 					token = "";
 					condition = start_token;
-				} else if(text[i] <= '0' || text[i] >= '9'){
+				} else if(!isdigit(text[i])){
 					condition = str_token;
 					token += text[i];
 				} else{
@@ -43,7 +43,7 @@ void parse(const char* text){
 				}
 				break;
 			case str_token:
-				if(text[i] == '\n' || text[i] == '\t' || text[i] == ' '){
+				if(isspace(text[i])){
 					if(i - start_cur_token > 0){
 						if(Str != NULL) Str(token.c_str());		
 					}
