@@ -18,6 +18,7 @@ public:
 	Matrix& operator*=(int k);
 	proxy operator[](int i);
 	bool operator==(Matrix& b);
+	bool operator!=(Matrix& b);
 	~Matrix();
 };
 

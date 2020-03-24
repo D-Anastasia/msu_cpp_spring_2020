@@ -52,20 +52,33 @@ Matrix::~Matrix(){
 }
 bool Matrix::operator==(Matrix& b) {
 	if(this->rows!=b.rows){
-		std::cout<<"a";
 		return false;
 	}
 	if(this->cols!=b.cols){
-		std::cout<<"b";
 		return false;
 	}
 	for(int i = 0;i<rows;i++){
 		for (int j = 0;j<cols;j++){
 			if(this->M[i][j]!=b.M[i][j]){
-				std::cout<<"a";
 				return false;
 			}
 		}
 	}
 	return true;
+}
+bool Matrix::operator!=(Matrix& b) {
+	if(this->rows!=b.rows){
+		return true;
+	}
+	if(this->cols!=b.cols){
+		return true;
+	}
+	for(int i = 0;i<rows;i++){
+		for (int j = 0;j<cols;j++){
+			if(this->M[i][j]!=b.M[i][j]){
+				return true;
+			}
+		}
+	}
+	return false;
 }

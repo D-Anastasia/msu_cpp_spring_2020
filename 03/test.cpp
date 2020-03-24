@@ -18,8 +18,10 @@ int main(void){
 			a1[i][j] = 1;
 		}
 	}
-	bool b = (a1==a);
-	assert(b==1);
+	bool b = (a1!=a);
+	assert(!b);
+	b = (a1==a);
+	assert(b);
 	assert(a[0][1]==1);
 	a[0][1] = 2;
 	a *= 3;
