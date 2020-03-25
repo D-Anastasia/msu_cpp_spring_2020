@@ -3,40 +3,40 @@
 #include <cstring>
 #include "matrix.hpp"
 
-Matrix::proxy::proxy(int* s,int col){
+Matrix::proxy::proxy(int* s,size_t col){
 	row = s;
 	c=col;
 }
 
-int& Matrix::proxy::operator[](int j) {
+int& Matrix::proxy::operator[](size_t j) {
 	if(j>=c || j<0){
 		throw std::out_of_range("");
 	}
 	return row[j];
 }
-Matrix::Matrix(const int& r,const int &c){
+Matrix::Matrix(size_t r, size_t c){
 	rows = r;
 	cols = c;
 	M = new int*[rows];
-	for (int i = 0;i<rows;i++){
+	for (size_t i = 0;i<rows;i++){
 		M[i] = new int[cols];
 	}
 }
-int Matrix::getRows(){
+size_t Matrix::getRows(){
 	return rows;
 }
-int Matrix::getColumns(){
+size_t Matrix::getColumns(){
 	return cols;
 }
-Matrix::proxy Matrix::operator[](int i) {
+Matrix::proxy Matrix::operator[](size_t i) {
 	if(i>=rows || i<0){
 		throw std::out_of_range("");
 	}
 	return proxy(M[i],cols);
 }
 Matrix& Matrix::operator*=(int k) {
- 	for(int i = 0;i<rows;i++){
-		for (int j = 0;j<cols;j++){
+ 	for(size_t i = 0;i<rows;i++){
+		for (size_t j = 0;j<cols;j++){
 			M[i][j] *= k;
 		}
 	}
@@ -50,35 +50,22 @@ Matrix::~Matrix(){
 		delete[] M;
 	}
 }
-bool Matrix::operator==(Matrix& b) {
-	if(this->rows!=b.rows){
+bool Matrix::operator==(const Matrix& b) {
+	if(rows!=b.rows){
 		return false;
 	}
-	if(this->cols!=b.cols){
+	if(cols!=b.cols){
 		return false;
 	}
 	for(int i = 0;i<rows;i++){
 		for (int j = 0;j<cols;j++){
-			if(this->M[i][j]!=b.M[i][j]){
+			if(M[i][j]!=b.M[i][j]){
 				return false;
 			}
 		}
 	}
 	return true;
 }
-bool Matrix::operator!=(Matrix& b) {
-	if(this->rows!=b.rows){
-		return true;
-	}
-	if(this->cols!=b.cols){
-		return true;
-	}
-	for(int i = 0;i<rows;i++){
-		for (int j = 0;j<cols;j++){
-			if(this->M[i][j]!=b.M[i][j]){
-				return true;
-			}
-		}
-	}
-	return false;
+bool Matrix::operator!=(const Matrix& b) {
+	return !(*this==b);
 }

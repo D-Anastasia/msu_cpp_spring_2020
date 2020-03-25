@@ -2,23 +2,23 @@
 #define P_03
 
 class Matrix{
-	int rows;
-	int cols;
+	size_t rows;
+	size_t cols;
 	int**M;
 public:
 	struct proxy {
 		int *row;
-		int c;
-		proxy(int* s,int col);
-		int& operator[](int j);
+		size_t c;
+		proxy(int* s,size_t col);
+		int& operator[](size_t j);
 	};
-	Matrix(const int& r,const int &c);
-	int getRows();
-	int getColumns();
+	Matrix(size_t r,size_t c);
+	size_t getRows();
+	size_t getColumns();
 	Matrix& operator*=(int k);
-	proxy operator[](int i);
-	bool operator==(Matrix& b);
-	bool operator!=(Matrix& b);
+	proxy operator[](size_t i);
+	bool operator==(const Matrix& b);
+	bool operator!=(const Matrix& b);
 	~Matrix();
 };
 
