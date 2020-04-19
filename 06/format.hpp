@@ -19,19 +19,19 @@ void process(std::vector <std::string> &v, T &&cur, Args &&... args) {
 	std::stringstream s;
 	s << cur;
 	v.push_back(s.str());
-	process(v, args...);
+	process(v, std::forward<Args>(args)...);
 }
 
 template<class... Args>
-std::string format(std::string str, Args &&... args) {
+std::string format(const std::string &str, Args &&... args) {
 	std::vector <std::string> v;
 	std::string res;
 	res = "";
 	std::string num;
 	num = "";
-	process(v, args...);
+	process(v, std::forward<Args>(args)...);
 	int cond = 0;
-	for(int i = 0; i < str.size(); i++){
+	for(size_t i = 0; i < str.size(); i++){
 		switch(cond){
 			case 0:
 				if(str[i] == '{'){
