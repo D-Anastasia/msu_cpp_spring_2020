@@ -60,10 +60,6 @@ public:
 	pointer allocate(size_type size){
 		value_type* memory;
 		memory = new value_type[size];
-		if (memory == NULL){
-			cout << "memory error" << endl;
-			throw bad_alloc();
-		}
 		return memory;
 	}
 	void deallocate(pointer ptr, size_type size=0){
