@@ -58,9 +58,7 @@ public:
 		new(ptr) T(std::forward <Args> (args)...);
 	}
 	pointer allocate(size_type size){
-		value_type* memory;
-		memory = new value_type[size];
-		return memory;
+		return static_cast<pointer> (::operator new[](sizeof(value_type) * size));
 	}
 	void deallocate(pointer ptr, size_type size=0){
 		delete[] ptr;
