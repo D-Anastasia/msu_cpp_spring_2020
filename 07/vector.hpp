@@ -85,6 +85,14 @@ private:
 	size_type used;
 	Alloc alloc;
 public:
+	explicit Vector(size_type size, const T& value) {
+		used = size;
+		data = alloc.allocate(size);
+		allocated = size;
+		for (pointer i = data; i != data + size; i++){
+			alloc.construct(i, value);
+		}
+	}
 	explicit Vector(size_type size = 0) {
 		used = size;
 		data = alloc.allocate(size);
@@ -103,7 +111,7 @@ public:
 		data = new_data;
 		allocated = size;
 	}
-	reference operator[](int i) {
+	reference operator[](size_type i) {
 		if (i < used) {
 			return data[i];
 		} else {

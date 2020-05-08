@@ -22,4 +22,20 @@ int main(){
 	cout << "v[3]=" << v[3] << endl;
 	v.clear();
 	assert(v.empty());
+
+
+    Vector<int> v2(4, 7);
+    for (int i = 0; i < v2.size(); i++)
+        assert(v2[i] == 7);
+    v2.push_back(23);
+    assert(5 == v2.size());
+    v2.pop_back();
+    v2[0] = 3;
+    assert(v2[0] == 3);
+
+    
+    Vector<int> v1(3);
+    Iterator<int> t = v1.begin();
+    for (int j = 0; j < v1.size();j++,++t)
+        assert(v1[j] == *t);
 }
