@@ -1,7 +1,6 @@
 CC=g++
 all: main
-	./sort 
-
+	valgrind --tool=memcheck --leak-check=yes ./sort
 main: sort.o  
 	$(CC) -pthread sort.o -o sort
 

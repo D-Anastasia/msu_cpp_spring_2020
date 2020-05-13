@@ -18,7 +18,6 @@ void sort_file(){
 		uint64_t *buffer = new uint64_t[mem_size];
 		file.read(reinterpret_cast<char *>(buffer), mem_size * sizeof(uint64_t));
 		auto size_read = file.gcount();
-
 		if(size_read>0){
 			names.push_back(to_string(k));
 			k++;
@@ -74,11 +73,11 @@ void sort_file(){
 			names[i] = "output.txt";
 		}
 		ofstream f_res(names[i], ios::binary| ios::out);
-
 		while(!cur_file2.eof() && j<size_read){
 			if (num[0]<=buffer1[j]){
 				f_res.write((char *)(&num[0]), sizeof(uint64_t));
 				cur_file2.read(reinterpret_cast<char *>(&num[0]), sizeof(uint64_t));
+
 			} else{
 				f_res.write((char *)(&buffer1[j]), sizeof(uint64_t));
 				j++;
@@ -87,12 +86,9 @@ void sort_file(){
 		if(cur_file2.eof()){
 			f_res.write(reinterpret_cast<const char *>(&buffer1[j]), sizeof(uint64_t) * (mem_size/2 - j));
 		}
-		if(!cur_file2.eof()){
+		while(!cur_file2.eof()){
 			f_res.write((char *)(&num[0]), sizeof(uint64_t));
-		}
-		while (!cur_file2.eof()) {
-			auto *n = new uint64_t;
-			cur_file2.read(reinterpret_cast<char *>(n), sizeof(uint64_t));
+			cur_file2.read(reinterpret_cast<char *>(&num[0]), sizeof(uint64_t));
 		}
 		cur_file2.close();
 		f_res.close();
@@ -100,6 +96,7 @@ void sort_file(){
 			names[i] = to_string(k - 1);
 		}
 		delete[] buffer1;
+		delete[] num;
 	}
 	for_each(names.begin(), names.end() , [](string & name) { remove(name.c_str());});
 
@@ -111,21 +108,33 @@ void sort_file(){
 
 int main(){
 	ofstream file("file.txt", ios::binary | ios::out);
-	for (int i = 0; i < 100000; ++i) {
-		auto *n = new uint64_t(std::rand() % 100000);
+	size_t size = 100000;
+	for (int i = 0; i < size; ++i) {
+		auto *n = new uint64_t(std::rand() % size);
 		file.write(reinterpret_cast<char *>(n), sizeof(uint64_t));
-		cout<<*n<<' ';
+		delete n;
 	}
 	file.close();
 	sort_file();
 	ifstream file1;
 	printf("\nresult:\n");
 	file1.open("output.txt",ios::binary | ios::in);
-	
-	while (!file1.eof()) {
+	int f = 0;
+	uint64_t p = 0;
+	int count = 0;
+	while (count<size) {
 		uint64_t n;
 		file1.read(reinterpret_cast<char *>(&n), sizeof(uint64_t));
-		cout << n << ' ';
+		if(p > n){
+			f = 1;
+		}
+		count+=1;
+		p = n;
+	}
+	if (f == 0){
+		cout<<"OK"<<endl;
+	} else{
+		cout<<"wrong sort"<<endl;
 	}
 	return 0;
 }
